@@ -1,16 +1,18 @@
 import sys,re,util
-print '<html><head><title>...</title><body>'
-
+file=open(input("input txt path:"),'r')
+html=open('output.html','w')
+html.write('<html><head><title>...</title><body>')
 title=True
-for block in util.blocks(sys.stdin):
+for block in util.blocks(file):
     block=re.sub(r'\*(.+?)\*',r'<em>\1</em>',block)
     if title:
-        print '<h1>'
-        print block
-        print '</h1>'
+        html.write('<h1>')
+        html.write(block)
+        html.write('</h1>')
         title=False
     else:
-        print '<p>'
-        print block
-        print '</p>'
-        print '</body></html>'
+        html.write('<p>')
+        html.write(block)
+        html.write('</p>')
+        html.write('</body></html>')
+html.close()
