@@ -1,4 +1,5 @@
 class Rule:
+
     def action(self, block, handler):
         handler.start(self.type)
         handler.feed(block)
@@ -27,8 +28,8 @@ class TitleRule(HeadingRule):
 class ListItemRule(Rule):
     type = 'listitem'
 
-    def condition(self,block):
-        return block[0] == '_'
+    def condition(self, block):
+        return block[0] == '-'
 
     def action(self, block, handler):
         handler.start(self.type)
@@ -41,19 +42,21 @@ class ListRule(ListItemRule):
     type = 'list'
     inside = False
 
-    def condition(self,block):
+    def condition(self, block):
         return True
 
     def action(self, block, handler):
-        if not self.inside and ListItemRule.condition(self,block):
+        if not self.inside and ListItemRule.condition(self, block):
             handler.start(self.type)
             self.inside = True
-        elif self.inside and not ListItemRule.condition(self,block):
+        elif self.inside and not ListItemRule.condition(self, block):
             handler.end(self.type)
             self.inside = False
         return False
 
+
 class ParagraphRule(Rule):
     type = 'paragraph'
-    def condition(self,block):
+
+    def condition(self, block):
         return True

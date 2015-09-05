@@ -1,6 +1,6 @@
 class Handler:
     def callback(self, prefix, name, *args):
-        method = getattr(self, prefix + name)
+        method = getattr(self, prefix + name, None)
         if callable(method):
             return method(*args)
 
@@ -15,8 +15,8 @@ class Handler:
             result = self.callback('sub_', name, match)
             if result is None:
                 match.group(0)
-                return result
-            return substitution
+            return result
+        return substitution
 
 
 class HTMLRenderer(Handler):
@@ -45,13 +45,13 @@ class HTMLRenderer(Handler):
         print '</ul>'
 
     def start_listitem(self):
-        print '</li>'
+        print '<li>'
 
     def end_listitem(self):
         print '</li>'
 
     def start_title(self):
-        print '</h1>'
+        print '<h1>'
 
     def end_title(self):
         print '</h1>'
